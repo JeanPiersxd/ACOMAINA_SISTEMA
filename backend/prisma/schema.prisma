@@ -11,3 +11,39 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+model Mesa {
+  id        Int      @id @default(autoincrement())
+  numero    Int      @unique
+  capacidad Int
+  estado    String   @default("disponible")
+  pedidos   Pedido[]
+}
+
+model Producto {
+  id          Int           @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  precio      Float
+  categoria   String
+  imagen      String?
+  pedidoItems PedidoItem[]
+}
+
+model Pedido {
+  id        Int          @id @default(autoincrement())
+  mesaId    Int
+  mesa      Mesa         @relation(fields: [mesaId], references: [id])
+  fecha     DateTime     @default(now())
+  estado    String       @default("pendiente")
+  items     PedidoItem[]
+}
+
+model PedidoItem {
+  id         Int     @id @default(autoincrement())
+  pedidoId   Int
+  pedido     Pedido  @relation(fields: [pedidoId], references: [id])
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+  cantidad   Int
+  precio     Float
+}

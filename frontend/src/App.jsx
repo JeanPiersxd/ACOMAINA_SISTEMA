@@ -1,22 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Menu from "./components/Menu";
-import Pedido from "./components/Pedido";
-import Admin from "./components/Admin";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Menu from './components/Menu';
+import Pedido from './components/Pedido';
+import Admin from './components/Admin';
+import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Ruta principal: Muestra el Menú Digital */}
-        <Route path="/" element={<Menu />} />
-        
-        {/* Ruta del carrito: Muestra la pantalla de Pedidos */}
-        <Route path="/pedido" element={<Pedido />} />
-        
-        {/* Ruta del panel: Muestra la pantalla del Administrador */}
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-    </Router>
+    <BrowserRouter>
+      <div className="app">
+        {/* Navegación simple (puedes ocultarla después) */}
+        <nav style={{ padding: '10px', background: '#333', marginBottom: '20px' }}>
+          <Link to="/" style={{ color: 'white', marginRight: '20px' }}>Menú</Link>
+          <Link to="/pedido" style={{ color: 'white', marginRight: '20px' }}>Pedido</Link>
+          <Link to="/admin" style={{ color: 'white' }}>Administración</Link>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Menu />} />
+          <Route path="/pedido" element={<Pedido />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
