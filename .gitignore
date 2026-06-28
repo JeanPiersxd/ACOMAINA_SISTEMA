@@ -1,0 +1,12 @@
+# Ignorar las carpetas pesadas de instalación en todo el proyecto
+node_modules/
+**/node_modules/
+
+# Ignorar la caja fuerte local con tus contraseñas de MySQL
+.env
+**/ .env
+
+# Archivos temporales y de producción
+dist/
+build/
+.DS_Store
