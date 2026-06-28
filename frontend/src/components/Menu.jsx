@@ -1,4 +1,4 @@
-import "./css";
+import "./Menu.css";
 
 function Menu() {
   return (
