@@ -1,24 +1,36 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CartProvider } from './context/CartContext'; // ← Agrega esto
+import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import Menu from './components/Menu';
 import Pedido from './components/Pedido';
 import Admin from './components/Admin';
 import './App.css';
 
+// Este componente mantiene tu Navbar pero solo donde tú quieres
+function LayoutConNavbar({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+    </>
+  );
+}
+
 function App() {
   return (
-    <CartProvider> {/* ← Envuelve todo con esto */}
+    <CartProvider>
       <Router>
         <div className="app">
-          <Navbar />
-          <main>
-            <Routes>
-              <Route path="/" element={<Menu />} />
-              <Route path="/pedido" element={<Pedido />} />
-              <Route path="/admin" element={<Admin />} />
-            </Routes>
-          </main>
+          <Routes>
+            {/* Rutas con Navbar (Cliente) */}
+            <Route path="/menu" element={<LayoutConNavbar><Menu /></LayoutConNavbar>} />
+            <Route path="/pedido" element={<LayoutConNavbar><Pedido /></LayoutConNavbar>} />
+            
+            {/* Ruta sin Navbar (Admin) */}
+            {/* Aquí no llamamos a LayoutConNavbar, así que el Admin se verá 
+                exactamente como lo diseñaste, sin Navbar encima */}
+            <Route path="/admin" element={<Admin />} />
+          </Routes>
         </div>
       </Router>
     </CartProvider>
