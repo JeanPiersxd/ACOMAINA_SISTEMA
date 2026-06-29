@@ -1,49 +1,64 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
+  url      = env("DATABASE_URL")
 }
-model Mesa {
-  id        Int      @id @default(autoincrement())
-  numero    Int      @unique
-  capacidad Int
-  estado    String   @default("disponible")
-  pedidos   Pedido[]
+
+model Categoria {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(100)
+  productos Producto[]
+
+  @@map("categoria")
 }
 
 model Producto {
-  id          Int           @id @default(autoincrement())
-  nombre      String
-  descripcion String?
-  precio      Float
-  categoria   String
-  imagen      String?
-  pedidoItems PedidoItem[]
+  id             Int             @id @default(autoincrement())
+  nombre         String          @db.VarChar(150)
+  descripcion    String?         @db.Text
+  precio         Decimal         @db.Decimal(10, 2)
+  imagen         String?         @db.VarChar(255)
+  estado         Int?            @default(1) @db.TinyInt
+  categoriaId    Int?            @map("categoria_id")
+  categoria      Categoria?      @relation(fields: [categoriaId], references: [id], onDelete: SetNull)
+  detallePedidos DetallePedido[]
+
+  @@map("producto")
+}
+
+model Mesa {
+  id      Int      @id @default(autoincrement())
+  numero  Int      @unique
+  estado  String?  @default("Libre") @db.VarChar(50)
+  pedidos Pedido[]
+
+  @@map("mesa")
 }
 
 model Pedido {
-  id        Int          @id @default(autoincrement())
-  mesaId    Int
-  mesa      Mesa         @relation(fields: [mesaId], references: [id])
-  fecha     DateTime     @default(now())
-  estado    String       @default("pendiente")
-  items     PedidoItem[]
+  id             Int             @id @default(autoincrement())
+  fecha          DateTime        @default(now()) @db.Timestamp(0)
+  total          Decimal         @default(0.00) @db.Decimal(10, 2)
+  estado         String?         @default("Pendiente") @db.VarChar(50)
+  mesaId         Int?            @map("mesa_id")
+  mesa           Mesa?           @relation(fields: [mesaId], references: [id], onDelete: SetNull)
+  detallePedidos DetallePedido[]
+
+  @@map("pedido")
 }
 
-model PedidoItem {
-  id         Int     @id @default(autoincrement())
-  pedidoId   Int
-  pedido     Pedido  @relation(fields: [pedidoId], references: [id])
-  productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
-  cantidad   Int
-  precio     Float
+model DetallePedido {
+  id          Int      @id @default(autoincrement())
+  pedidoId    Int      @map("pedido_id")
+  productoId  Int      @map("producto_id")
+  cantidad    Int
+  subtotal    Decimal  @db.Decimal(10, 2)
+  observacion String?  @db.VarChar(255)
+  pedido      Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  producto    Producto @relation(fields: [productoId], references: [id])
+
+  @@map("detalle_pedido")
 }
