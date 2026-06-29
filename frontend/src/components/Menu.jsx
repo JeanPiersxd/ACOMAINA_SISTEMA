@@ -1,240 +1,121 @@
-import "./Menu.css";
+import { useCart } from '../context/CartContext';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './Menu.css';
 
 function Menu() {
+  const { addToCart } = useCart();
+  const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaActiva, setCategoriaActiva] = useState('todos');
+
+  // Mapeo de imágenes por ID de producto
+  const imagenesProductos = {
+  1: "tacacho.jpg",
+  2: "juane_5355-med.webp",
+  3: "pachamanca-300x201.webp",
+  4: "caldo-mote.webp",
+  5: "free-photo-of-botella-de-cerveza-pilsen-calla-o-sobre-hielo-con-fondo-verde.webp",
+  6: "free-photo-of-botella-de-cerveza-pilsen-calla-o-sobre-hielo-con-fondo-verde.webp",
+  7: "CocaColaOriginal_530x@2x.webp",
+  8: "coca-cola-2-lt-cola-284909.webp",
+  9: "DS1194_1 Jarra Chicha Morada.webp",
+  10: "inca-kola-225.webp",
+  11: "D_Q_NP_2X_920399-MCO85714473361_062025-V.webp",
+  12: "daa759_097750ef6a634bbaabf70ea0cc29d213m-v2.webp",
+  13: "san-luis-agua-mineral-x-750-ml-sin-gas.webp"
+};
+
+  // Cargar datos desde el backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [resCategorias, resProductos] = await Promise.all([
+          fetch('http://localhost:3001/api/categorias'),
+          fetch('http://localhost:3001/api/menu')
+        ]);
+        
+        const dataCategorias = await resCategorias.json();
+        const dataProductos = await resProductos.json();
+
+        setCategorias(dataCategorias);
+        setProductos(dataProductos);
+      } catch (error) {
+        console.error('Error al cargar el menú:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Filtrar productos según la categoría seleccionada
+  const productosFiltrados = categoriaActiva === 'todos'
+    ? productos
+    : productos.filter(p => p.categoriaId === categoriaActiva);
+
   return (
-    <>
+    <div className="menu-container">
+      {/* HEADER */}
       <header>
         <div>
           <h1>Acomaina</h1>
-          <p className="mesa">Mesa 4 • Menú Digital</p>
+          <p>Menú del Restaurante</p>
         </div>
-
-        <a href="/pedido" className="btn-pedido">
-          🛒 Pedido
-        </a>
+        <Link to="/pedido" className="btn-pedido">
+          Ver Mi Pedido
+        </Link>
       </header>
 
-      <section className="categorias">
-        <a href="#platos">Platos</a>
-        <a href="#bebidas">Bebidas</a>
+      {/* FILTROS DE CATEGORÍA */}
+      <nav className="categorias-nav">
+        <button 
+          className={categoriaActiva === 'todos' ? 'activo' : ''}
+          onClick={() => setCategoriaActiva('todos')}
+        >
+          Todos
+        </button>
+        {categorias.map(cat => (
+          <button 
+            key={cat.id}
+            className={categoriaActiva === cat.id ? 'activo' : ''}
+            onClick={() => setCategoriaActiva(cat.id)}
+          >
+            {cat.nombre}
+          </button>
+        ))}
+      </nav>
+
+      {/* LISTA DE PRODUCTOS */}
+      <section className="productos-grid">
+        {productosFiltrados.map(producto => (
+          <div key={producto.id} className="producto-card">
+            <div className="producto-imagen">
+              <img 
+                src={`http://localhost:3001/imagenes/${producto.imagen}`}
+                alt={producto.nombre}
+                onError={(e) => { 
+                  e.target.onerror = null; 
+                  e.target.src="https://via.placeholder.com/150?text=Sin+Imagen"; 
+                }}
+              />
+            </div>
+            <div className="producto-info">
+              <h3>{producto.nombre}</h3>
+              <p className="descripcion">{producto.descripcion}</p>
+              <div className="producto-footer">
+              <span className="precio">S/ {parseFloat(producto.precio).toFixed(2)}</span>
+              <button 
+                className="btn-agregar"
+                onClick={() => addToCart(producto)}
+              >
+                Agregar
+              </button>
+              </div>
+              </div>
+          </div>
+        ))}
       </section>
-
-      <section className="contenedor">
-        <h2 className="titulo-seccion" id="platos">
-          Platos
-        </h2>
-
-        {/* CARD 1 */}
-        <div className="card">
-          <img
-            src="https://www.machupicchu.biz/imagenes/articulos/plato-lechon-al-horno.jpg"
-            alt="Lechón"
-          />
-
-          <div className="info">
-            <span className="categoria">Especialidad</span>
-
-            <h2>Lechón al Horno</h2>
-
-            <p>
-              Acompañado con tallarín al horno y rocoto relleno.
-            </p>
-
-            <div className="precio">
-              S/ 25.00
-              <p className="tiempo">⏱ 20 min aprox.</p>
-            </div>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-
-        {/* CARD 2 */}
-        <div className="card">
-          <img
-            src="https://www.paulinacocina.net/wp-content/uploads/2024/05/cordero-lechal-al-horno-paulina-cocina-recetas-800x450.jpg"
-            alt="Cordero"
-          />
-
-          <div className="info">
-            <span className="categoria">Tradicional</span>
-
-            <h2>Cordero al Horno</h2>
-
-            <p>
-              Carne jugosa acompañada de papas doradas.
-            </p>
-
-            <div className="precio">
-              S/ 25.00
-              <p className="tiempo">⏱ 25 min aprox.</p>
-            </div>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-
-        {/* CARD 3 */}
-        <div className="card">
-          <img
-            src="https://tse2.mm.bing.net/th/id/OIP.oam4MpaTPiVfb-PrJ6JrWAHaD_?rs=1&pid=ImgDetMain&o=7&rm=3"
-            alt="Pollo"
-          />
-
-          <div className="info">
-            <span className="categoria">Favorito</span>
-
-            <h2>Pollo al Horno</h2>
-
-            <p>
-              Pollo crocante acompañado con papas y ensalada.
-            </p>
-
-            <div className="precio">
-              S/ 25.00
-              <p className="tiempo">⏱ 15 min aprox.</p>
-            </div>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-
-        <h2 className="titulo-seccion" id="bebidas">
-          Bebidas
-        </h2>
-
-        {/* CARD 4 */}
-        <div className="card">
-          <img
-            src="https://seniorblue.pe/wp-content/uploads/2023/06/CERVEZA-PILZEN.jpg"
-            alt="Pilsen"
-          />
-
-          <div className="info">
-            <span className="categoria">Bebida</span>
-
-            <h2>Cerveza Pilsen</h2>
-
-            <p>
-              Bebida helada ideal para acompañar tus platos.
-            </p>
-
-            <div className="precio">
-              S/ 14.00
-              <p className="tiempo">
-                ⏱ Disponible al instante
-              </p>
-            </div>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-
-        {/* CARD 5 */}
-        <div className="card">
-          <img
-            src="https://amazonasfoods.com/cdn/shop/products/inca_300x300.jpg?v=1627937385"
-            alt="Inka Cola"
-          />
-
-          <div className="info">
-            <span className="categoria">Gaseosa</span>
-
-            <h2>Inka Cola 1 Litro</h2>
-
-            <p>
-              Gaseosa helada ideal para acompañar tus comidas.
-            </p>
-
-            <div className="precio">
-              S/ 8.00
-            </div>
-
-            <p className="tiempo">
-              ⏱ Disponible al instante
-            </p>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-
-        {/* CARD 6 */}
-        <div className="card">
-          <img
-            src="https://tse2.mm.bing.net/th/id/OIP.tr39KDNZel5xH-aVkptM1gHaHa?w=1200&h=1200&rs=1&pid=ImgDetMain&o=7&rm=3"
-            alt="Coca Cola"
-          />
-
-          <div className="info">
-            <span className="categoria">Gaseosa</span>
-
-            <h2>Coca Cola 2 Litros</h2>
-
-            <p>
-              Bebida fría perfecta para compartir en la mesa.
-            </p>
-
-            <div className="precio">
-              S/ 15.00
-            </div>
-
-            <p className="tiempo">
-              ⏱ Disponible al instante
-            </p>
-
-            <div className="cantidad">
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
-            </div>
-
-            <button className="agregar">
-              Agregar al pedido
-            </button>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
 
