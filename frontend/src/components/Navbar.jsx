@@ -28,11 +28,7 @@ return (
             )}
             </Link>
         </li>
-        <li className="navbar-item">
-            <Link to="/admin" className="navbar-link">
-            Administración
-            </Link>
-        </li>
+        
         </ul>
     </div>
     </nav>

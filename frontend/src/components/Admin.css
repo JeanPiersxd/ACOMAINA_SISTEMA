@@ -255,3 +255,93 @@ body, #root {
     }
 
 }
+
+.btn-precuenta {
+  background-color: #64748b;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-Items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-precuenta:hover {
+  background-color: #475569;
+}
+
+/* ========================================================================= */
+/* FORMATO DE IMPRESIÓN PARA EL TICKET (TICKET THREAD) */
+/* ========================================================================= */
+.ticket-impresion {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000;
+  width: 280px; /* Ancho estándar para ticketeras de 80mm */
+  margin: 0;
+  padding: 10px;
+}
+
+.ticket-impresion .text-center {
+  text-align: center;
+}
+
+.ticket-impresion .linea-divisoria {
+  border-top: 1px dashed #000;
+  margin: 10px 0;
+}
+
+.ticket-impresion table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-impresion th {
+  border-bottom: 1px dashed #000;
+  padding-bottom: 5px;
+}
+
+.ticket-impresion .total-ticket {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 15px;
+}
+/* ========================================================================= */
+/* REPORTE DE VENTAS POR DÍA */
+/* ========================================================================= */
+.tabla-dias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-dias th {
+  background-color: #f8fafc;
+  color: #64748b;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.85rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.tabla-dias td {
+  padding: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.tabla-dias tr:hover {
+  background-color: #f8fafc;
+}
+
+.txt-verde {
+  color: #10b981;
+  font-weight: bold;
+}

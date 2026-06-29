@@ -61,3 +61,19 @@ try {
     throw error;
 }
 };
+
+// Asegúrate de que tenga la palabra 'export' al inicio
+export const actualizarEstadoPedido = async (id, nuevoEstado) => {
+  try {
+    const response = await fetch(`${API_URL}/pedidos/${id}`, {
+      method: 'PUT', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estado: nuevoEstado }),
+    });
+    if (!response.ok) throw new Error('Error al actualizar el estado');
+    return await response.json();
+  } catch (error) {
+    console.error('Error en actualizarEstadoPedido:', error);
+    throw error;
+  }
+};
