@@ -1,233 +1,292 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+.pedido-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f9fafb;
+min-height: 100vh;
 }
 
-body{
-    background-color: #f7efe5;
+.pedido-container h2 {
+color: #dc2626;
+margin-bottom: 30px;
+font-size: 2rem;
+text-align: center;
 }
 
-/* HEADER */
-
-header{
-    background-color: #d62828;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Mensaje de carrito vacío */
+.pedido-vacio {
+text-align: center;
+padding: 60px 20px;
+background-color: white;
+border-radius: 12px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-header h1{
-    font-size: 32px;
+.pedido-vacio h2 {
+color: #6b7280;
+margin-bottom: 10px;
 }
 
-header p{
-    margin-top: 5px;
+.pedido-vacio p {
+color: #9ca3af;
+margin-bottom: 30px;
 }
 
-/* BOTON */
-
-.btn-volver{
-    background-color: white;
-    color: #d62828;
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
+.btn-volver-menu {
+display: inline-block;
+background-color: #dc2626;
+color: white;
+padding: 12px 30px;
+border-radius: 6px;
+text-decoration: none;
+font-weight: 600;
+transition: background-color 0.3s;
 }
 
-.btn-volver:hover{
-    background-color: #ffd166;
+.btn-volver-menu:hover {
+background-color: #b91c1c;
 }
 
-/* CONTENEDOR */
-
-.pedido-contenedor{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
-    padding: 40px;
+/* Mensajes */
+.mensaje {
+padding: 15px;
+border-radius: 6px;
+margin-bottom: 20px;
+ont-weight: 600;
+text-align: center;
 }
 
-/* PRODUCTOS */
-
-.productos{
-    background-color: white;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.mensaje.exito {
+background-color: #d1fae5;
+color: #065f46;
+border: 1px solid #10b981;
 }
 
-.productos h2{
-    margin-bottom: 30px;
-    color: #d62828;
-    font-size: 32px;
+.mensaje.error {
+background-color: #fee2e2;
+color: #991b1b;
+border: 1px solid #ef4444;
 }
 
-/* ITEM */
-
-.item{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #ddd;
+/* Contenido del pedido */
+.pedido-content {
+display: grid;
+grid-template-columns: 1fr 350px;
+gap: 30px;
+align-items: start;
 }
 
-.item img{
-    width: 120px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 12px;
+/* Lista de items */
+.pedido-items {
+display: flex;
+flex-direction: column;
+gap: 15px;
 }
 
-.detalle{
-    flex: 1;
+.pedido-item {
+background-color: white;
+border-radius: 8px;
+padding: 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
 
-.detalle h3{
-    color: #333;
-    margin-bottom: 10px;
+.item-info h3 {
+margin: 0 0 5px 0;
+color: #1f2937;
+font-size: 1.2rem;
 }
 
-.detalle p{
-    color: #777;
+.item-precio {
+margin: 0;
+color: #6b7280;
+font-size: 0.9rem;
 }
 
-.subtotal{
-    color: #d62828;
-    font-size: 22px;
-    font-weight: bold;
+.item-controls {
+display: flex;
+align-items: center;
+gap: 20px;
 }
 
-/* RESUMEN */
-
-.resumen{
-    background-color: white;
-    padding: 30px;
-    border-radius: 18px;
-    height: fit-content;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 20px;
+/* Controles de cantidad */
+.cantidad-controls {
+display: flex;
+align-items: center;
+gap: 10px;
+background-color: #f3f4f6;
+padding: 5px;
+border-radius: 6px;
 }
 
-.resumen h2{
-    color: #d62828;
-    margin-bottom: 30px;
-    font-size: 32px;
+.btn-cantidad {
+background-color: #dc2626;
+color: white;
+border: none;
+width: 30px;
+height: 30px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 1.2rem;
+font-weight: bold;
+transition: background-color 0.3s;
 }
 
-/* FILAS */
-
-.fila{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    font-size: 18px;
+.btn-cantidad:hover {
+background-color: #b91c1c;
 }
 
-.total{
-    border-top: 2px solid #ddd;
-    padding-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #d62828;
+.cantidad {
+font-size: 1.1rem;
+font-weight: 600;
+min-width: 30px;
+text-align: center;
 }
 
-/* BOTON */
-
-.btn-enviar{
-    width: 100%;
-    border: none;
-    background-color: #25D366;
-    color: white;
-    padding: 18px;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 30px;
-    transition: 0.3s;
+.item-subtotal {
+font-size: 1.2rem;
+font-weight: bold;
+color: #dc2626;
+min-width: 80px;
+text-align: right;
 }
 
-.btn-enviar:hover{
-    background-color: #1ebe5d;
+.btn-eliminar {
+background-color: transparent;
+border: none;
+font-size: 1.5rem;
+cursor: pointer;
+padding: 5px;
+transition: transform 0.2s;
 }
 
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-    .pedido-contenedor{
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
-
-    header{
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .item{
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .item img{
-        width: 100%;
-        height: 220px;
-    }
-
+.btn-eliminar:hover {
+transform: scale(1.2);
 }
-/* CONTROLES */
 
-.controles{
-    display: flex;
-    align-items: center;
+/* Resumen del pedido */
+.pedido-resumen {
+background-color: white;
+border-radius: 8px;
+padding: 25px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+position: sticky;
+top: 100px;
+}
+
+.pedido-resumen h3 {
+margin: 0 0 20px 0;
+color: #1f2937;
+font-size: 1.5rem;
+border-bottom: 2px solid #e5e7eb;
+padding-bottom: 10px;
+}
+
+/* Selector de mesa */
+.selector-mesa {
+margin-bottom: 20px;
+}
+
+.selector-mesa label {
+display: block;
+margin-bottom: 8px;
+color: #1f2937;
+font-weight: 600;
+}
+
+.selector-mesa select {
+width: 100%;
+padding: 10px;
+border: 1px solid #d1d5db;
+border-radius: 6px;
+font-size: 1rem;
+background-color: white;
+cursor: pointer;
+}
+
+.selector-mesa select:focus {
+outline: none;
+border-color: #dc2626;
+}
+
+.resumen-linea {
+display: flex;
+justify-content: space-between;
+margin-bottom: 15px;
+color: #6b7280;
+font-size: 1.1rem;
+}
+
+.resumen-linea.total {
+font-size: 1.5rem;
+font-weight: bold;
+color: #dc2626;
+border-top: 2px solid #e5e7eb;
+padding-top: 15px;
+margin-top: 15px;
+}
+
+.btn-confirmar {
+width: 100%;
+background-color: #dc2626;
+color: white;
+border: none;
+padding: 15px;
+border-radius: 6px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+margin-top: 20px;
+transition: background-color 0.3s;
+}
+
+.btn-confirmar:hover {
+background-color: #b91c1c;
+}
+
+.btn-confirmar:disabled {
+background-color: #9ca3af;
+cursor: not-allowed;
+}
+
+.btn-limpiar {
+width: 100%;
+background-color: transparent;
+color: #dc2626;
+border: 2px solid #dc2626;
+padding: 12px;
+border-radius: 6px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+margin-top: 10px;
+transition: all 0.3s;
+}
+
+.btn-limpiar:hover {
+background-color: #dc2626;
+color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.pedido-content {
+    grid-template-columns: 1fr;
+}
+
+.pedido-item {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 15px;
-    margin-top: 15px;
+}
+.item-controls {
+    width: 100%;
+    justify-content: space-between;
 }
 
-.controles button{
-    width: 35px;
-    height: 35px;
-    border: none;
-    background-color: #d62828;
-    color: white;
-    border-radius: 8px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+.pedido-resumen {
+    position: static;
 }
-
-.controles button:hover{
-    background-color: #b71c1c;
-}
-
-.controles span{
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* ELIMINAR */
-
-.eliminar{
-    margin-top: 15px;
-    border: none;
-    background-color: transparent;
-    color: #d62828;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.eliminar:hover{
-    color: #a4161a;
 }

@@ -1,6 +1,7 @@
-require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); 
+require('dotenv').config();
 const menuRoutes = require('./src/routes/menuRoutes');
 const pedidoRoutes = require('./src/routes/pedidoRoutes');
 const mesaRoutes = require('./src/routes/mesaRoutes');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/imagenes', express.static(path.join(__dirname, 'public/imagenes'))); 
 
 // Routes
 app.use('/api', menuRoutes);
